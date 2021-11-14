@@ -98,6 +98,7 @@ public class Player_controler : MonoBehaviour
                 Destroy(collision.gameObject);
                 rb.velocity = new Vector2(rb.velocity.x, jump_force * Time.fixedDeltaTime);
                 anim.SetBool("jumping", true);
+                anim.SetBool("falling", false);
                 jump_time = 1;
             }
             else
