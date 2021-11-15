@@ -83,4 +83,14 @@ public class frog : MonoBehaviour
                 anim.SetBool("falling", false);
             }
         }
+
+    void Death()
+    {
+        Destroy(gameObject);
+     }
+
+    public void jumpon()
+    {
+         anim.SetTrigger("death");
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -93,9 +93,10 @@ public class Player_controler : MonoBehaviour
     {
         if(collision.gameObject.tag == "Enemy")
         {
+            frog frog_enemy = collision.gameObject.GetComponent<frog>(); //声明frig这个类作为局部变量，可以做到调用frog类中的方法
             if(anim.GetBool("falling") && !anim.GetBool("jumping"))
             {
-                Destroy(collision.gameObject);
+                frog_enemy.jumpon();
                 rb.velocity = new Vector2(rb.velocity.x, jump_force * Time.fixedDeltaTime);
                 anim.SetBool("jumping", true);
                 anim.SetBool("falling", false);
