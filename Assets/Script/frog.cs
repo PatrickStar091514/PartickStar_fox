@@ -3,21 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class frog : MonoBehaviour
+public class frog : Enemy
 {
     private Rigidbody2D rb;
     public Transform leftpoint, rightpoint;
     public float speed;
     public float jumpSpeed;
-    [SerializeField] private Animator anim;
+    // private Animator anim;
     public LayerMask ground;
     public Collider2D coll;
 
     private bool Faceleft = true;
 
-    private void Start()
+    protected override void Start()
     {
-        anim = GetComponent<Animator>();
+        base.Start();
+        Anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         transform.DetachChildren();//解除子物体与父物体的关系，防止子物体对父物体状态的改变而改变
     }
@@ -32,7 +33,7 @@ public class frog : MonoBehaviour
     {
         if (coll.IsTouchingLayers(ground))//添加事件后，程序在执行玩idle的动画后，只会执行FrogMove()一次，所以不能将动作切换的方法写在这里面
         {
-            anim.SetBool("jumping", true);
+            Anim.SetBool("jumping", true);
             if (Faceleft)
             {
                 rb.velocity = new Vector2(-speed, jumpSpeed);
@@ -68,29 +69,22 @@ public class frog : MonoBehaviour
             }
         }*/
     }
-        void FrogSwitch()
+
+    void FrogSwitch()
+    {
+        if (Anim.GetBool("jumping"))
         {
-            if (anim.GetBool("jumping"))
+            if (rb.velocity.y < 0.1)
             {
-                if (rb.velocity.y < 0.1)
-                {
-                    anim.SetBool("jumping", false);
-                    anim.SetBool("falling", true);
-                }
-            }
-            else if (coll.IsTouchingLayers(ground))
-            {
-                anim.SetBool("falling", false);
+                Anim.SetBool("jumping", false);
+                Anim.SetBool("falling", true);
             }
         }
-
-    void Death()
-    {
-        Destroy(gameObject);
-     }
-
-    public void jumpon()
-    {
-         anim.SetTrigger("death");
+        else if (coll.IsTouchingLayers(ground))
+        {
+            Anim.SetBool("falling", false);
+        }
     }
+
+
 }

@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class eagle : MonoBehaviour
+public class eagle : Enemy //应记得改变他的父类
 {
     private Rigidbody2D rb;
     public Transform uppoint, downpoint;
     public Collider2D coll;
     public int flySpeed;
-    [SerializeField] private Animator anim;
+    // private Animator anim;
+
 
     bool upFly = true;
 
-    void Start()
+    protected override void Start() //搭配父类的virtual使用
     {
-        anim = GetComponent<Animator>();
+        base.Start(); //获取父级的方法
+        Anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         transform.DetachChildren();
     }
@@ -45,14 +47,5 @@ public class eagle : MonoBehaviour
         }
     }
 
-    void Death()
-    {
-        anim.SetTrigger("death");
-    }
-
-    public void jumpon()
-    {
-        Destroy(gameObject);
-    }
 
 }

@@ -11373,7 +11373,6 @@ MonoBehaviour:
   downpoint: {fileID: 1037963663}
   coll: {fileID: 1071150914}
   flySpeed: 1
-  anim: {fileID: 0}
 --- !u!95 &1071150912
 Animator:
   serializedVersion: 3
@@ -13117,7 +13116,7 @@ PrefabInstance:
     - target: {fileID: 8991934428346572915, guid: 779559c27f9490b47bdf484fa017e790,
         type: 3}
       propertyPath: jump_force
-      value: 150
+      value: 175
       objectReference: {fileID: 0}
     - target: {fileID: 8991934428346572915, guid: 779559c27f9490b47bdf484fa017e790,
         type: 3}
