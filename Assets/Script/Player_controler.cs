@@ -9,14 +9,16 @@ public class Player_controler : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;//private声明私有变量，无法在窗口中看到，[SerializeField] 则是将私有变量显示出来
     [SerializeField] private Animator anim;
     public Collider2D coll;
+    public AudioSource jumpAudio;
+
     public float speed = 3;
     public float jump_force;
-    public LayerMask ground;
-    public LayerMask up_block;
-    public int cherry_number = 0;
     [SerializeField] private int jump_time = 0;
     private bool isHurt;
 
+    public LayerMask ground;
+    public LayerMask up_block;
+    public int cherry_number = 0;
     public Text CherryNum;
 
 
@@ -36,12 +38,14 @@ public class Player_controler : MonoBehaviour
         SwitchAnim();
     }
 
+    //角色动作
     void PlayerMove()
     {
         float Horizontal_move = Input.GetAxis("Horizontal");//水平方向-1/0/1
         float face_direction = Input.GetAxisRaw("Horizontal");//垂直方向-1/0/1
 
-        if(Horizontal_move != 0)//角色移动
+        //角色移动
+        if(Horizontal_move != 0)
         {
             rb.velocity = new Vector2(Horizontal_move*speed * Time.fixedDeltaTime, rb.velocity.y);//velocity是速度
         }
@@ -51,10 +55,12 @@ public class Player_controler : MonoBehaviour
             rb.transform.localScale = new Vector3(face_direction, 1, 1);
         }
 
-        if(Input.GetButtonDown("Jump"))//角色跳动
+        //角色跳动
+        if(Input.GetButtonDown("Jump"))
         {
             if (jump_time < 2)
             {
+                jumpAudio.Play();
                 rb.velocity = new Vector2(rb.velocity.x, jump_force * Time.fixedDeltaTime);
                 anim.SetBool("jumping", true);
                 jump_time++;
@@ -63,6 +69,7 @@ public class Player_controler : MonoBehaviour
         crouch();
     }
 
+    //动画切换
     void SwitchAnim()
     {
         if (anim.GetBool("jumping"))
@@ -89,7 +96,8 @@ public class Player_controler : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)//与敌人碰撞
+    //与敌人碰撞
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "Enemy")
         {
@@ -119,7 +127,8 @@ public class Player_controler : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)//采集
+    //采集
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Collection") 
         {
@@ -129,20 +138,14 @@ public class Player_controler : MonoBehaviour
         }
     }
 
-        /*public void crouch()
-        {
-            if (coll.IsTouchingLayers(up_block))//切换成蹲下姿态
-            {
-                anim.SetBool("crouching", true);
-            }
-        }*/
+    //下蹲
     public void crouch()
     {
-        if (Input.GetButtonDown("Crouch"))
+        if (Input.GetButton("Crouch"))
         {
             anim.SetBool("crouching", true);
         }
-        else if (Input.GetButtonUp("Crouch"))
+        else
         {
             anim.SetBool("crouching", false);
         }
