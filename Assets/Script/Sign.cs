@@ -5,7 +5,7 @@ using UnityEngine;
 public class Sign : MonoBehaviour
 {
 
-    public GameObject HouseSign;
+     [SerializeField]public GameObject HouseSign;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
